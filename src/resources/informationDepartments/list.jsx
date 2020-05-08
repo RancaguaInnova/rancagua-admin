@@ -9,7 +9,7 @@ import {
 } from 'react-admin'
 
 const InformationdepartmentList = props => (
-  <List {...props}>
+  <List {...props} title='LIstado de Departamentos'>
     <Datagrid rowClick='edit'>
       <TextField source='name' />
       <TextField source='description' />

@@ -11,5 +11,5 @@ export default {
   edit: edit,
   icon: icon,
   show: show,
-  options: { label: 'Departamentos Información' }
+  options: { label: 'Departamentos' }
 }

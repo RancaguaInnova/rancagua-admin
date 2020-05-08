@@ -3,7 +3,7 @@ import React from 'react'
 import {Create,SimpleForm,TextInput} from 'react-admin'
 
  const OfficialEdit = props => (
-    <Create {...props}>
+    <Create {...props} title='Crear FUncionario'>
         <SimpleForm>
             <TextInput source="firstname" />
             <TextInput source="lastname" />

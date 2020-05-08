@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, Datagrid, TextField, EditButton, DeleteButton,ReferenceField } from 'react-admin'
 const OfficialList = props => (
-  <List {...props}>
+  <List {...props} title='Listado de funcionarios'>
     <Datagrid rowClick='edit'>
       <TextField source='firstname' label='Nombre' />
       <TextField source='lastname' label='Apellido' />

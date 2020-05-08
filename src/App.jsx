@@ -10,7 +10,6 @@ import AuthProvider from './auth'
 import LoginPage from './resources/login'
 import Users from './resources/users'
 import Eventos from './resources/eventos'
-import Departments from './resources/departments'
 import InformationCategories from './resources/informationCategories'
 import InformationDepartments from './resources/informationDepartments'
 import Applications from './resources/applications/'
@@ -30,22 +29,11 @@ class App extends Component {
       >
         <Resource name='news' {...News} />
         <Resource name='users' {...Users} />
-        <Resource name='eventos' {...Eventos} />
-        <Resource name='departments' {...Departments} />
+        <Resource name='events' {...Eventos} />
         <Resource name='informationCategories' {...InformationCategories} />
         <Resource name='informationDepartments' {...InformationDepartments} />
         <Resource name='officials' {...Officials} />
         <Resource name='applications' {...Applications} />
-
-        {/*   <Resource name='informationCategories' {...InformationCategories} />
-        <Resource name='informationDepartments' list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />
-        <Resource name='officials' list={ListGuesser} edit={EditGuesser} show={ShowGuesser} />
-
-            {permissions => [
-          <ResourceWithPermissions name='news' {...News} permissions={permissions} />,
-          <ResourceWithPermissions name='users' {...Users} permissions={permissions} />,
-          <ResourceWithPermissions name='profile' {...Profile} permissions={permissions} />   
-        ]}*/}
       </Admin>
     )
   }
