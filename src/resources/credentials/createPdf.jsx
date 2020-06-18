@@ -11,7 +11,7 @@ const urlValidacion = 'https://webviews.smartrancagua.com/validationCredential?c
 // Create Document Component
 const CreatePdf = () => {
 
-    const [datos, setDatos] = useState();
+    const [datos, setDatos] = useState([]);
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
 
@@ -28,8 +28,6 @@ const CreatePdf = () => {
             const response = await fetch(request)
             if (response.status === 200) {
                 try {
-
-
                     return await response.json()
                 } catch (error) {
                     return []
@@ -43,9 +41,14 @@ const CreatePdf = () => {
 
 
     }
-    useEffect(async () => {
-        let data = await users()
-        setDatos(data);
+    useEffect(() => {
+        async function getUsers() {
+            let data = await users()
+            console.log('data', data)
+            setDatos(data);
+        }
+
+        getUsers()
     }, []);
     const ref = React.createRef();
     const options = {
@@ -57,10 +60,7 @@ const CreatePdf = () => {
 
     return (
         <div className="App">
-
-                     {datos && datos.map((item, index) => {
-                return (
-
+             {datos && datos.map((item, index) => (
                     <div className='letter' key={index}>
                         <div className="officialCredential">
                             <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
@@ -102,11 +102,9 @@ const CreatePdf = () => {
                             </div>
                         </div>
                     </div>
-                )
+               
 
-            }
-            )
-                }
+            ))} 
         
         </div>
 
