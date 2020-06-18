@@ -27,6 +27,7 @@
     "react-email-editor": "^1.1.1",
     "react-icofont": "^1.0.19",
     "react-live-clock": "^4.0.5",
+    "react-pdf": "^4.1.0",
     "react-places-autocomplete": "^7.2.1",
     "react-scripts": "3.4.1",
     "react-to-pdf": "^0.0.11",
