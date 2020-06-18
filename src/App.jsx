@@ -14,8 +14,9 @@ import InformationCategories from './resources/informationCategories'
 import InformationDepartments from './resources/informationDepartments'
 import Applications from './resources/applications/'
 import Officials from './resources/officials'
-
-
+import Mails from './resources/mails'
+import Credentials from './resources/credentials'
+import CustomRouters from './customRouters'
 class App extends Component {
   render() {
     return (
@@ -26,6 +27,8 @@ class App extends Component {
         dataProvider={AddUploadCapabilities(Provider)}
         locale='es'
         i18nProvider={I18nProvider}
+        customRoutes={CustomRouters}
+
       >
         <Resource name='news' {...News} />
         <Resource name='users' {...Users} />
@@ -34,6 +37,10 @@ class App extends Component {
         <Resource name='informationDepartments' {...InformationDepartments} />
         <Resource name='officials' {...Officials} />
         <Resource name='applications' {...Applications} />
+        <Resource name='mails' {...Mails} />
+        <Resource name='userintegration-offline' {...Credentials} />
+
+
       </Admin>
     )
   }
