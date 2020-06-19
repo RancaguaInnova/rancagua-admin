@@ -58,11 +58,7 @@ const CreatePdf = () => {
     };
 
 
-    return (
-        <div className="App">
-             {datos && datos.map((item, index) => (
-                    <div className='letter' key={index}>
-                        <div className="officialCredential">
+    const renderCredential = (user) => (<div className="officialCredential">
                             <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
 
                             <div className="fila">
@@ -72,14 +68,14 @@ const CreatePdf = () => {
                                         <div className="Flex dataCredential">
                                             <div className="divDatos">
                                                 <div className="TextoTarjeta">
-                                                    Nombre:{' '}{item.name ? item.name : ''}
+                                                    Nombre:{' '}{user.name ? user.name : ''}
                                                 </div>
                                                 <div className="TextoTarjeta">
-                                                    Rut:{' '}{item.identificationNumber ? format(item.identificationNumber) : ''}
+                                                    Rut:{' '}{user.identificationNumber ? format(user.identificationNumber) : ''}
                                                 </div>
-                                                {item.department ? (
+                                                {user.department ? (
                                                     <div className="TextoTarjeta">
-                                                        Departamento:{' '}{item.department}
+                                                        Departamento:{' '}{user.department}
                                                     </div>)
                                                     : ''}
 
@@ -88,7 +84,7 @@ const CreatePdf = () => {
 
                                         <div className="divQr">
                                             <QRCode
-                                                value={urlValidacion + item.offlineToken}
+                                                value={urlValidacion + user.offlineToken}
                                                 bgColor="#FFFFFF"
                                                 fgColor="#000000"
                                                 includeMargin={true}
@@ -100,9 +96,15 @@ const CreatePdf = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>)
+
+
+    return (
+        <div className="App">
+             {datos && datos.map((item, index) => (
+                    <div className='letter' key={index}>
+                        {renderCredential(item)}
                     </div>
-               
 
             ))} 
         
