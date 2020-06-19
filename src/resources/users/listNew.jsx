@@ -7,10 +7,13 @@ import axios from 'axios';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ApiUrl from "../../provider/url"
+import { Button, Spinner } from 'react-bootstrap'
 
 const Listado = () => {
 
   const [users, setusers] = useState([])
+  const [loading, setLoading] = useState([])
+
   const [columns, setcolumns] = useState([
     {
       dataField: 'id',
@@ -53,7 +56,7 @@ const Listado = () => {
 
       text: '10', value: 10
 
-    }, 
+    },
     {
 
       text: '50', value: 50
@@ -94,24 +97,26 @@ const Listado = () => {
 
   const GetUsersList = async () => {
     try {
-      const request = new Request(ApiUrl+'/users/listUsers', {
+      const request = new Request(ApiUrl + '/users/listUsers', {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json', 'X-Origin': 'Admin' })
       })
 
       const response = await fetch(request)
-      
+
       if (response.status === 200) {
         try {
-      
+
           return await response.json()
         } catch (error) {
           return []
         }
       } else {
+        setLoading(false)
         return []
       }
     } catch (error) {
+      setLoading(false)
       return []
     }
 
@@ -120,21 +125,28 @@ const Listado = () => {
 
   useEffect(() => {
     async function getUsers() {
-      let data = await GetUsersList()
+      setLoading(true)
+      try {
 
-      let dataform = data.map(function (item, i) {
-        let user = {
-          name: item &&  item.name?item.name:'' ,
-          identifier: item  &&  item.identifier ? item.identifier:'' ,
-          lastName:item &&  item.lastName ? item.lastName:'',
-          id:item.id,
-          email:item && item.email  ? item.email:''
-        }
 
-        return user
-      })
+        let data = await GetUsersList()
 
-      setusers(dataform);
+        let dataform = data.map(function (item, i) {
+          let user = {
+            name: item && item.name ? item.name : '',
+            identifier: item && item.identifier ? item.identifier : '',
+            lastName: item && item.lastName ? item.lastName : '',
+            id: item.id,
+            email: item && item.email ? item.email : ''
+          }
+          setLoading(false)
+          return user
+        })
+
+        setusers(dataform);
+      } catch{
+        setLoading(false)
+      }
     }
 
     getUsers()
@@ -156,23 +168,39 @@ const Listado = () => {
 
       <div className="container" style={{ marginTop: 50 }}>
 
-        <BootstrapTable
+        {loading ? (
+          <Button variant="primary" disabled>
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            Loading...
+          </Button>
 
-          striped
+        ) : (
 
-          hover
+            <BootstrapTable
 
-          keyField='id'
-          data={users}
+              striped
 
-          columns={columns}
+              hover
 
-          filter={filterFactory()}
+              keyField='id'
+              data={users}
 
-          pagination={paginationFactory(options)} />
+              columns={columns}
+
+              filter={filterFactory()}
+
+              pagination={paginationFactory(options)} />
+
+
+          )}
 
       </div>
-
     </div>
 
   )

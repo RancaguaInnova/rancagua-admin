@@ -31,8 +31,7 @@ class App extends Component {
 
       >
       <Resource name='users' {...Users} />
-        
-
+     
 
       </Admin>
     )
