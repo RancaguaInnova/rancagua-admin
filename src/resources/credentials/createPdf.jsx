@@ -4,6 +4,7 @@ import ApiUrl from "../../provider/url"
 import { format } from 'rut.js'
 import './styles.scss'
 import ReactToPdf from 'react-to-pdf'
+import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 
 const urlValidacion = 'https://webviews.smartrancagua.com/validationCredential?code='
 // Create Document Component
@@ -45,6 +46,8 @@ const CreatePdf = () => {
     }, []);
 
     const ref = React.createRef();
+    const componentRef = React.createRef();
+
     const options = {
         orientation: 'landscape',
         unit: 'in',
@@ -95,23 +98,39 @@ const CreatePdf = () => {
         </div>
     </div>)
 
-    
+
+    const onPrint =() => {
+
+    }
 
     return (
         <div className="App">
-            <ReactToPdf targetRef={ref} filename="funcionarios.pdf" options={options} x={.5} y={.5} onComplete={finish}>
+            {/* <ReactToPdf targetRef={ref} filename="funcionarios.pdf" options={options} x={.5} y={.5} onComplete={finish}>
                 {({ toPdf }) => (
                     <button onClick={toPdf}>Generate pdf</button>
                 )}
-            </ReactToPdf>
-            <div ref={ref}>
+            </ReactToPdf> */}
+            <ReactToPrint content={()=>componentRef.current}>
+                <PrintContextConsumer>
+                    {({ handlePrint }) => (
+                    <button onClick={handlePrint}>Print this out!</button>
+                    )}
+                </PrintContextConsumer>
+            </ReactToPrint>
+
+
+
+
+            <div ref={componentRef}>
                 {datos && datos.map((item, index) => (
                     <div  key={index}>
-                        {index<10 && (
+                       
                             <div className='letter' >
                                 {credential(item)}
+                            
                             </div>
-                        )}
+                       
+                        <div className="page-break"></div>
                     </div>
                 ))}
             </div>
