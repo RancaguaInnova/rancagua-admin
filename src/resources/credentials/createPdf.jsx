@@ -50,17 +50,21 @@ const CreatePdf = () => {
         unit: 'in',
         format: [4, 2]
     };
-
+const finish=()=>{
+    alert("finalizado")
+}
     return (
         <div className="App">
-            <ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>
+            <ReactToPdf targetRef={ref} filename="funcionarios.pdf" options={options} x={.5} y={.5} onComplete={finish}>
                 {({ toPdf }) => (
                     <button onClick={toPdf}>Generate pdf</button>
                 )}
             </ReactToPdf>
             <div ref={ref}>
-                {datos && datos.map((item, index) => (
-                    <div className='letter' key={index} >
+                {datos && datos.map((item, index) => {return(
+                    <div  key={index}>
+                    {index<10 && (
+                    <div className='letter' >
                         <div className="officialCredential">
                             <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
 
@@ -101,9 +105,9 @@ const CreatePdf = () => {
                             </div>
                         </div>
                     </div>
-
-
-                ))}
+                    )}
+</div>
+                )})}
             </div>
         </div>
 
