@@ -30,15 +30,8 @@ class App extends Component {
         customRoutes={CustomRouters}
 
       >
-        <Resource name='news' {...News} />
-        <Resource name='users' {...Users} />
-        <Resource name='events' {...Eventos} />
-        <Resource name='informationCategories' {...InformationCategories} />
-        <Resource name='informationDepartments' {...InformationDepartments} />
-        <Resource name='officials' {...Officials} />
-        <Resource name='applications' {...Applications} />
-        <Resource name='mails' {...Mails} />
-        <Resource name='userintegration-offline' {...Credentials} />
+      <Resource name='users' {...Users} />
+        
 
 
       </Admin>
