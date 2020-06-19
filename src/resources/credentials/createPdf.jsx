@@ -2,22 +2,15 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react'
 import ApiUrl from "../../provider/url"
 import { format } from 'rut.js'
-import { Document, Page } from 'react-pdf';
-
 import './styles.scss'
-
+import ReactToPdf from 'react-to-pdf'
 
 const urlValidacion = 'https://webviews.smartrancagua.com/validationCredential?code='
 // Create Document Component
 const CreatePdf = () => {
 
     const [datos, setDatos] = useState([]);
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
 
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
-    }
     const users = async () => {
         try {
             const request = new Request(ApiUrl + '/userintegration-offline', {
@@ -44,12 +37,13 @@ const CreatePdf = () => {
     useEffect(() => {
         async function getUsers() {
             let data = await users()
-            console.log('data', data)
+
             setDatos(data);
         }
 
         getUsers()
     }, []);
+
     const ref = React.createRef();
     const options = {
         orientation: 'landscape',
@@ -57,60 +51,62 @@ const CreatePdf = () => {
         format: [4, 2]
     };
 
+    const credential = (user) => (<div className="officialCredential">
+        <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
 
-    const renderCredential = (user) => (<div className="officialCredential">
-                            <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
-
-                            <div className="fila">
-                                <div className="columna Credencial">
-                                    <div className="backofficialCredential">
-                                        <h4 className='text-center'>CREDENCIAL MUNICIPAL</h4>
-                                        <div className="Flex dataCredential">
-                                            <div className="divDatos">
-                                                <div className="TextoTarjeta">
-                                                    Nombre:{' '}{user.name ? user.name : ''}
-                                                </div>
-                                                <div className="TextoTarjeta">
-                                                    Rut:{' '}{user.identificationNumber ? format(user.identificationNumber) : ''}
-                                                </div>
-                                                {user.department ? (
-                                                    <div className="TextoTarjeta">
-                                                        Departamento:{' '}{user.department}
-                                                    </div>)
-                                                    : ''}
-
-                                            </div>
-                                        </div>
-
-                                        <div className="divQr">
-                                            <QRCode
-                                                value={urlValidacion + user.offlineToken}
-                                                bgColor="#FFFFFF"
-                                                fgColor="#000000"
-                                                includeMargin={true}
-                                                size={200}
-                                                level="L"
-                                            />
-                                        </div>
-                                        <div className='textvalidation'>Escanee este código qr para validar esta Credencial</div>
-                                    </div>
-                                </div>
+        <div className="fila">
+            <div className="columna Credencial">
+                <div className="backofficialCredential">
+                    <h4 className='text-center'>CREDENCIAL MUNICIPAL</h4>
+                    <div className="Flex dataCredential">
+                        <div className="divDatos">
+                            <div className="TextoTarjeta">
+                                Nombre:{' '}{user.name ? user.name : ''}
                             </div>
-                        </div>)
+                            <div className="TextoTarjeta">
+                                Rut:{' '}{user.identificationNumber ? format(user.identificationNumber) : ''}
+                            </div>
+                            {user.department ? (
+                                <div className="TextoTarjeta">
+                                    Departamento:{' '}{user.department}
+                                </div>)
+                                : ''}
 
+                        </div>
+                    </div>
+
+                    <div className="divQr">
+                        <QRCode
+                            value={urlValidacion + user.offlineToken}
+                            bgColor="#FFFFFF"
+                            fgColor="#000000"
+                            includeMargin={true}
+                            size={200}
+                            level="L"
+                        />
+                    </div>
+                    <div className='textvalidation'>Escanee este código qr para validar esta Credencial</div>
+                </div>
+            </div>
+        </div>
+    </div>)
 
     return (
         <div className="App">
-             {datos && datos.map((item, index) => (
-                    <div className='letter' key={index}>
-                        {renderCredential(item)}
-                    </div>
+            <ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>
+                {({ toPdf }) => (
+                    <button onClick={toPdf}>Generate pdf</button>
+                )}
+            </ReactToPdf>
+            <div ref={ref}>
+                {datos && datos.map((item, index) => (
+                    <div className='letter' key={index} >
+                        {credential(item)}
+                    </div>))}
+            </div>
+        </div>)
 
-            ))} 
-        
-        </div>
 
 
-    );
 }
 export default CreatePdf;
