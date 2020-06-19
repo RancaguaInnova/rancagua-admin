@@ -94,14 +94,16 @@ const Listado = () => {
 
   const GetUsersList = async () => {
     try {
-      const request = new Request(ApiUrl + '/users', {
+      const request = new Request(ApiUrl+'/users/listUsers', {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json', 'X-Origin': 'Admin' })
       })
 
       const response = await fetch(request)
+      
       if (response.status === 200) {
         try {
+      
           return await response.json()
         } catch (error) {
           return []
@@ -122,11 +124,11 @@ const Listado = () => {
 
       let dataform = data.map(function (item, i) {
         let user = {
-          name: item &&  item.profile && item.profile.firstName ?item.profile.firstName:'' ,
-          identifier: item &&  item.profile &&  item.profile.identifier ? item.profile.identifier:'' ,
-          lastName:item &&  item.profile && item.profile.lastName ? item.profile.lastName:'',
-          id:item._id,
-          email:item && item.emails && item.emails[0] && item.emails[0].address ? item.emails[0].address:''
+          name: item &&  item.name?item.name:'' ,
+          identifier: item  &&  item.identifier ? item.identifier:'' ,
+          lastName:item &&  item.lastName ? item.lastName:'',
+          id:item.id,
+          email:item && item.email  ? item.email:''
         }
 
         return user
