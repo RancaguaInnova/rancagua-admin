@@ -2,22 +2,15 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode.react'
 import ApiUrl from "../../provider/url"
 import { format } from 'rut.js'
-import { Document, Page } from 'react-pdf';
-
 import './styles.scss'
-
+import ReactToPdf from 'react-to-pdf'
 
 const urlValidacion = 'https://webviews.smartrancagua.com/validationCredential?code='
 // Create Document Component
 const CreatePdf = () => {
 
     const [datos, setDatos] = useState([]);
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
 
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
-    }
     const users = async () => {
         try {
             const request = new Request(ApiUrl + '/userintegration-offline', {
@@ -44,12 +37,13 @@ const CreatePdf = () => {
     useEffect(() => {
         async function getUsers() {
             let data = await users()
-            console.log('data', data)
+
             setDatos(data);
         }
 
         getUsers()
     }, []);
+
     const ref = React.createRef();
     const options = {
         orientation: 'landscape',
@@ -57,11 +51,16 @@ const CreatePdf = () => {
         format: [4, 2]
     };
 
-
     return (
         <div className="App">
-             {datos && datos.map((item, index) => (
-                    <div className='letter' key={index}>
+            <ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>
+                {({ toPdf }) => (
+                    <button onClick={toPdf}>Generate pdf</button>
+                )}
+            </ReactToPdf>
+            <div ref={ref}>
+                {datos && datos.map((item, index) => (
+                    <div className='letter' key={index} >
                         <div className="officialCredential">
                             <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
 
@@ -102,10 +101,10 @@ const CreatePdf = () => {
                             </div>
                         </div>
                     </div>
-               
 
-            ))} 
-        
+
+                ))}
+            </div>
         </div>
 
 
