@@ -132,7 +132,6 @@ const Listado = () => {
         return user
       })
 
-      console.log(dataform)
       setusers(dataform);
     }
 
@@ -140,30 +139,12 @@ const Listado = () => {
   }, []);
 
 
-  //   componentDidMount() {    
-
-  //     axios.get('http://localhost:51760/Api/Emp/employee').then(response => {    
-
-  //       console.log(response.data);    
-
-  //       this.setState({    
-
-  //             products: response.data    
-
-  //       });    
-
-  //     });    
-
-  //   }   
-
-
-
   return (
 
     <div className="container">
       <div className="hdr row">
 
-        <div className="col-sm-12 btn btn-info">
+        <div className="col-sm-12 btn ">
 
           Busqueda de Usuarios
 
