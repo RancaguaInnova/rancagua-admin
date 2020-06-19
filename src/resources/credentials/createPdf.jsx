@@ -51,6 +51,10 @@ const CreatePdf = () => {
         format: [4, 2]
     };
 
+    const finish = () => {
+        console.log('on finish!')
+    }
+
     const credential = (user) => (<div className="officialCredential">
                             <div className='logo'><img src='/assets/img/credential/logo.png'></img></div>
 
