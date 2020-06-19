@@ -95,6 +95,8 @@ const CreatePdf = () => {
         </div>
     </div>)
 
+    
+
     return (
         <div className="App">
             <ReactToPdf targetRef={ref} filename="funcionarios.pdf" options={options} x={.5} y={.5} onComplete={finish}>
@@ -103,15 +105,15 @@ const CreatePdf = () => {
                 )}
             </ReactToPdf>
             <div ref={ref}>
-                {datos && datos.map((item, index) => {return(
+                {datos && datos.map((item, index) => (
                     <div  key={index}>
-                    {index<10 && (
-                    <div className='letter' >
-                        {credential(item)}
+                        {index<10 && (
+                            <div className='letter' >
+                                {credential(item)}
+                            </div>
+                        )}
                     </div>
-                    )}
-                    </div>
-                )})}
+                ))}
             </div>
         </div>)
 
