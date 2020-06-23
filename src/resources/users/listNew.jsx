@@ -97,9 +97,15 @@ const Listado = () => {
 
   const GetUsersList = async () => {
     try {
+      const token = await localStorage.getItem('token')
+      const options={}
+      options.headers = new Headers({ Accept: 'application/json' })
+      options.headers.set('Authorization', `Bearer ${token}`)
+      options.headers.set('X-Origin', 'Admin')
+
       const request = new Request(ApiUrl + '/users/listUsers', {
         method: 'GET',
-        headers: new Headers({ 'Content-Type': 'application/json', 'X-Origin': 'Admin' })
+        headers: options.headers
       })
 
       const response = await fetch(request)
@@ -116,6 +122,7 @@ const Listado = () => {
         return []
       }
     } catch (error) {
+      console.log("error",error)
       setLoading(false)
       return []
     }
