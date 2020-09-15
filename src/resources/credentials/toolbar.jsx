@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const CredentialActions = (props) => {
     
     return (
-      <Toolbar >
+      <Toolbar {...props}>
     
           <Button
           startIcon={<CloudUploadIcon />}

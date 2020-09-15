@@ -30,8 +30,9 @@ class App extends Component {
         customRoutes={CustomRouters}
 
       >
-      <Resource name='users' {...Users} />
-     
+      <Resource name='users' {...Users} />.
+        <Resource name='userintegration-offline' />
+
 
       </Admin>
     )
