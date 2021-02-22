@@ -1,12 +1,12 @@
 import { stringify } from "query-string";
 import axios from "axios";
-
+import { getST } from "./Storage";
 
 export const fetchJson = (url, options) => {
   const requestHeaders =
     options.headers ||
     new Headers({
-      Accept: "application/json"
+      Accept: "application/json",
     });
   if (
     !requestHeaders.has("Content-Type") &&
@@ -14,28 +14,33 @@ export const fetchJson = (url, options) => {
   ) {
     requestHeaders["Content-Type"] = "application/json";
   }
-
-  const token = localStorage.getItem("token");
+  // let token = "";
+  /*  try {
+   
+  } catch (e) {
+    console.error(e);
+  } */
+  let token = getST("token");
   requestHeaders["Authorization"] = `Bearer ${token}`;
 
   return axios(url, { ...options, headers: requestHeaders }).then(
-    response => {
+    (response) => {
       let { status, statusText, data } = response;
       if (status < 200 || status >= 300) {
         return Promise.reject({
           data: data || statusText,
-          status
+          status,
         });
       }
       return Promise.resolve(response);
     },
-    error => {
+    (error) => {
       if (error.response) {
         let { status, statusText, data } = error.response;
         if (status < 200 || status >= 300) {
           return Promise.reject({
             data: data || statusText,
-            status
+            status,
           });
         }
       }
@@ -45,7 +50,7 @@ export const fetchJson = (url, options) => {
 
 export const queryParameters = stringify;
 
-const isValidObject = value => {
+const isValidObject = (value) => {
   if (!value) {
     return false;
   }
@@ -62,7 +67,7 @@ export const flattenObject = (value, path = []) => {
   if (isValidObject(value)) {
     return Object.assign(
       {},
-      ...Object.keys(value).map(key =>
+      ...Object.keys(value).map((key) =>
         flattenObject(value[key], path.concat([key]))
       )
     );

@@ -1,180 +1,155 @@
+import React, { useState, useEffect } from "react";
 
-
-import React, { useState, useEffect } from 'react'
-
-import BootstrapTable from 'react-bootstrap-table-next';
-import axios from 'axios';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import ApiUrl from "../../provider/url"
-import { Button, Spinner } from 'react-bootstrap'
+import BootstrapTable from "react-bootstrap-table-next";
+import axios from "axios";
+import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import ApiUrl from "../../provider/url";
+import { Button, Spinner } from "react-bootstrap";
 
 const Listado = () => {
-
-  const [users, setusers] = useState([])
-  const [loading, setLoading] = useState([])
+  const [users, setusers] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   const [columns, setcolumns] = useState([
     {
-      dataField: 'id',
-      text: 'id',
+      dataField: "id",
+      text: "id",
     },
     {
-      dataField: 'identifier',
-      text: 'Rut',
-      filter: textFilter()
+      dataField: "identifier",
+      text: "Rut",
+      filter: textFilter(),
     },
 
     {
-      dataField: 'name',
-      text: 'Nombre',
-      filter: textFilter()
-
+      dataField: "name",
+      text: "Nombre",
+      filter: textFilter(),
     },
     {
-      dataField: 'lastName',
-      text: 'Apellido',
-      filter: textFilter()
-
+      dataField: "lastName",
+      text: "Apellido",
+      filter: textFilter(),
     },
     {
-      dataField: 'email',
-      text: 'Email',
-      filter: textFilter()
-
+      dataField: "email",
+      text: "Email",
+      filter: textFilter(),
     },
-  ])
+  ]);
   const options = {
-
     page: 2,
 
-    sizePerPageList: [{
-
-      text: '5', value: 5
-
-    }, {
-
-      text: '10', value: 10
-
-    },
-    {
-
-      text: '50', value: 50
-
-    },
-    {
-
-      text: '100', value: 100
-
-    },
-    {
-
-      text: '200', value: 200
-
-    },
-    {
-
-      text: 'All', value: users.length
-
-    }],
+    sizePerPageList: [
+      {
+        text: "5",
+        value: 5,
+      },
+      {
+        text: "10",
+        value: 10,
+      },
+      {
+        text: "50",
+        value: 50,
+      },
+      {
+        text: "100",
+        value: 100,
+      },
+      {
+        text: "200",
+        value: 200,
+      },
+      {
+        text: "All",
+        value: users.length,
+      },
+    ],
 
     sizePerPage: 50,
     pageStartIndex: 0,
 
     paginationSize: 3,
 
-    prePage: 'Prev',
+    prePage: "Prev",
 
-    nextPage: 'Next',
+    nextPage: "Next",
 
-    firstPage: 'First',
+    firstPage: "First",
 
-    lastPage: 'Last',
+    lastPage: "Last",
 
-    paginationPosition: 'top'
-
+    paginationPosition: "top",
   };
 
   const GetUsersList = async () => {
     try {
-      const token = await localStorage.getItem('token')
-      const options={}
-      options.headers = new Headers({ Accept: 'application/json' })
-      options.headers.set('Authorization', `Bearer ${token}`)
-      options.headers.set('X-Origin', 'Admin')
+      const token = await getST("token");
+      const options = {};
+      options.headers = new Headers({ Accept: "application/json" });
+      options.headers.set("Authorization", `Bearer ${token}`);
+      options.headers.set("X-Origin", "Admin");
 
-      const request = new Request(ApiUrl + '/users/listUsers', {
-        method: 'GET',
-        headers: options.headers
-      })
+      const request = new Request(ApiUrl + "/users/listUsers", {
+        method: "GET",
+        headers: options.headers,
+      });
 
-      const response = await fetch(request)
+      const response = await fetch(request);
 
       if (response.status === 200) {
         try {
-
-          return await response.json()
+          return await response.json();
         } catch (error) {
-          return []
+          return [];
         }
       } else {
-        setLoading(false)
-        return []
+        setLoading(false);
+        return [];
       }
     } catch (error) {
-      console.log("error",error)
-      setLoading(false)
-      return []
+      console.log("error", error);
+      setLoading(false);
+      return [];
     }
-
-
-  }
+  };
 
   useEffect(() => {
     async function getUsers() {
-      setLoading(true)
+      setLoading(true);
       try {
-
-
-        let data = await GetUsersList()
+        let data = await GetUsersList();
 
         let dataform = data.map(function (item, i) {
           let user = {
-            name: item && item.name ? item.name : '',
-            identifier: item && item.identifier ? item.identifier : '',
-            lastName: item && item.lastName ? item.lastName : '',
+            name: item && item.name ? item.name : "",
+            identifier: item && item.identifier ? item.identifier : "",
+            lastName: item && item.lastName ? item.lastName : "",
             id: item.id,
-            email: item && item.email ? item.email : ''
-          }
-          setLoading(false)
-          return user
-        })
+            email: item && item.email ? item.email : "",
+          };
+          setLoading(false);
+          return user;
+        });
 
         setusers(dataform);
-      } catch{
-        setLoading(false)
+      } catch {
+        setLoading(false);
       }
     }
 
-    getUsers()
+    getUsers();
   }, []);
 
-
   return (
-
     <div className="container">
       <div className="hdr row">
-
-        <div className="col-sm-12 btn ">
-
-          Busqueda de Usuarios
-
-                         </div>
-
+        <div className="col-sm-12 btn ">Busqueda de Usuarios</div>
       </div>
 
       <div className="container" style={{ marginTop: 50 }}>
-
         {loading ? (
           <Button variant="primary" disabled>
             <Spinner
@@ -186,35 +161,20 @@ const Listado = () => {
             />
             Loading...
           </Button>
-
         ) : (
-
-            <BootstrapTable
-
-              striped
-
-              hover
-
-              keyField='id'
-              data={users}
-
-              columns={columns}
-
-              filter={filterFactory()}
-
-              pagination={paginationFactory(options)} />
-
-
-          )}
-
+          <BootstrapTable
+            striped
+            hover
+            keyField="id"
+            data={users}
+            columns={columns}
+            filter={filterFactory()}
+            pagination={paginationFactory(options)}
+          />
+        )}
       </div>
     </div>
+  );
+};
 
-  )
-
-
-
-}
-
-
-export default Listado 
+export default Listado;
