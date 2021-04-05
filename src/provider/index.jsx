@@ -114,19 +114,30 @@ export default (apiUrl, httpClient) => {
    */
   const convertHTTPResponse = (response, type, resource, params) => {
     const { headers, data } = response;
-    console.log("data", data);
     switch (type) {
       case GET_LIST:
       case GET_MANY:
       case GET_MANY_REFERENCE:
-        return {
-          data: data.rows.map((item) => {
-            item.id = item._id;
-            delete item._id;
-            return item;
-          }),
-          total: data.total,
-        };
+      case GET_MANY_REFERENCE:
+        console.log("data",data)
+        try{
+          let arrayData=data.rows?data.rows:data
+
+          return  {
+            data: arrayData.map(item => {
+              item.id = item._id;
+              delete item._id;
+              return item;
+            }),
+            total: data.total?data.total:arrayData.length
+          }
+        }catch (e) {
+          return  {
+            data: [],
+            total: 0
+          }
+        }
+
       case DELETE:
       case DELETE_MANY:
         return { data: params };

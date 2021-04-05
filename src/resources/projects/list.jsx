@@ -1,10 +1,9 @@
 import React from 'react'
 import { List, Datagrid, TextField, DateField, EditButton, DeleteButton } from 'react-admin'
-import { ShowButton } from 'react-admin';
 
-const NewsList = props => (
-  <List {...props} title='Listado de Noticias'>
-    <Datagrid >
+const ProjectList = props => (
+  <List {...props} title='Listado de proyectos'>
+    <Datagrid>
       <TextField source='title' label='Título' />
       <TextField source='subtitle' label='Sub Título' />
       <DateField source='publicationDate' label='Fecha de publicación' />
@@ -12,4 +11,4 @@ const NewsList = props => (
     </Datagrid>
   </List>
 )
-export default NewsList
+export default ProjectList

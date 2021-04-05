@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import url from '../../dataprovider/url'
 
 function Copyright() {
   return (
@@ -37,10 +38,8 @@ function MyLoginPage(props) {
       height: '100vh'
     },
     image: {
-      backgroundImage: 'url(https://source.unsplash.com/random)',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      background: 'url(/assets/img/credential/logo.png) #F51457 no-repeat center center ',
+
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -64,7 +63,7 @@ function MyLoginPage(props) {
     e.preventDefault()
     // gather your data/credentials here
     const credentials = { username: username, password: password }
-    console.log(e)
+    //console.log(e)
     // Dispatch the userLogin action (injected by connect)
     props.userLogin(credentials)
   }
@@ -77,57 +76,56 @@ function MyLoginPage(props) {
     setPassword(event.target.value)
   }
   return (
-    <MuiThemeProvider theme={props.theme}>
-      <Grid container component='main' className={classes.root}>
-        <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component='h1' variant='h5'>
-              Project Manager Rancagua
-            </Typography>
-            <form className={classes.form} noValidate onSubmit={submit}>
-              <TextField
-                variant='outlined'
-                margin='normal'
-                required
-                fullWidth
-                id='Usuario'
-                label='Usuario'
-                name='Usuario'
-                autoComplete='Usuario'
-                autoFocus
-                onChange={handleChangeUsuario.bind(this)}
-              />
-              <TextField
-                variant='outlined'
-                margin='normal'
-                required
-                fullWidth
-                name='password'
-                label='Contraseña'
-                type='password'
-                id='password'
-                autoComplete='Contraseña'
-                onChange={handleChangePassword.bind(this)}
-              />
-              <FormControlLabel
-                control={<Checkbox value='remember' color='primary' />}
-                label='Recordar Contraseña'
-              />
-              <Button
-                type='submit'
-                fullWidth
-                variant='contained'
-                color='primary'
-                className={classes.submit}
-              >
-                Enviar
-              </Button>
-              <Grid container>
+    <Grid container component='main' className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Sitio de Administración Web App Rancagua
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={submit}>
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='Usuario'
+              label='Usuario'
+              name='Usuario'
+              autoComplete='Usuario'
+              autoFocus
+              onChange={handleChangeUsuario.bind(this)}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              name='password'
+              label='Contraseña'
+              type='password'
+              id='password'
+              autoComplete='Contraseña'
+              onChange={handleChangePassword.bind(this)}
+            />
+            <FormControlLabel
+              control={<Checkbox value='remember' color='primary' />}
+              label='Recordar Contraseña'
+            />
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='primary'
+              className={classes.submit}
+            >
+              Enviar
+            </Button>
+            {/*<Grid container>
                 <Grid item xs>
                   <Link href='#' variant='body2'>
                     Olvido su contraseña?
@@ -138,15 +136,14 @@ function MyLoginPage(props) {
                     {'No tienes cuenta? Registrate'}
                   </Link>
                 </Grid>
-              </Grid>
-              <Box mt={5}>
-                <Copyright />
-              </Box>
-            </form>
-          </div>
-        </Grid>
+              </Grid>*/}
+            <Box mt={5}>
+              <Copyright />
+            </Box>
+          </form>
+        </div>
       </Grid>
-    </MuiThemeProvider>
+    </Grid>
   )
 }
 

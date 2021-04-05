@@ -12,4 +12,4 @@ if (env !== "local" && window.location.protocol !== "https:") {
   window.location.protocol = "https:";
 }
 
-export default urls[env];
+export default urls['local'];

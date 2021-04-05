@@ -10,10 +10,10 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { fetchJson as httpClient } from "../../provider/httpClient";
+import { fetchJson as httpClient } from "../../dataprovider/httpClient";
 import { Redirect } from 'react-router-dom';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import ApiUrl from "../../provider/url"
+import ApiUrl from "../../dataprovider/url"
 
 toast.configure({
   autoClose: 2000,
@@ -102,7 +102,13 @@ export const CredentialUploadUser = () => {
       let url = "";
       let options = {};
       options.method = "POST";
-      options.data = { data: datos };
+      let DATA = datos.map(function(dato) {
+        dato.identificationNumber = dato.identificationNumber.toString()
+        dato.createAt = new Date()
+        return dato
+      })
+
+      options.data = { data: DATA };
       url = `${ApiUrl}/userintegration-offline`;
       let response = await httpClient(url, options);
       if (response.status === 200) {
@@ -123,7 +129,7 @@ export const CredentialUploadUser = () => {
     fetchData()
   }, []);
   return (
-    redirect ? (<Redirect to='/pro' />) : (
+    redirect ? (<Redirect to='/userintegration-offline' />) : (
       <div className={classes.root}>
         <Paper variant="outlined">
           <form noValidate autoComplete="off" className={classes.form}>
@@ -153,31 +159,7 @@ export const CredentialUploadUser = () => {
           </Toolbar>
         </Paper>
 
-       {/*  <div>
-          <div className='Titles'><h4 className='titleMassivePro'>Listado de carga de usuarios Pro</h4></div>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Ciudad</th>
-                <th>Cantidad de Rut Cargados</th>
-                <th>Cantidad de Rut Nuevos</th>
-                <th>Cantidad de Rut Removidos</th>
 
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-              </tr>
-            </tbody>
-          </Table>
-        </div> */}
       </div>
     )
   );
