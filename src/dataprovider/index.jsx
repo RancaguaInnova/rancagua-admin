@@ -131,10 +131,17 @@ export default (apiUrl, httpClient) => {
      */
     const convertHTTPResponse = (response, type, resource, params) => {
         const {headers, data} = response;
+        consoe.log("data",data)
         switch (type) {
             case GET_LIST:
+                if (data && data._id) {
+                    data.id = data._id;
+                    delete data._id;
+                }
+                return {data};
             case GET_MANY:
             case GET_MANY_REFERENCE:
+                
                 let arrayData=data.rows?data.rows:data
                 return {
 

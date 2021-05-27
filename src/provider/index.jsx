@@ -38,11 +38,7 @@ export default (apiUrl, httpClient) => {
       case GET_LIST: {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
-        // handle full-text
-        /*if (params.filter.q) {
-                            params.filter["$text"] = { "$search": params.filter.q};
-                            delete params.filter.q;
-                        }*/
+       
         const query = {
           sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
           skip: (page - 1) * perPage,
@@ -70,10 +66,6 @@ export default (apiUrl, httpClient) => {
           sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
           skip: (page - 1) * perPage,
           limit: perPage,
-          /*range: JSON.stringify([
-                                  (page - 1) * perPage,
-                                  page * perPage - 1,
-                              ]),*/
           query: JSON.stringify({
             ...params.filter,
             [params.target]: params.id,
@@ -87,6 +79,7 @@ export default (apiUrl, httpClient) => {
         options.method = "PUT";
         options.data = JSON.stringify(params.data);
         break;
+        
       case CREATE:
         url =
           params && params.id
@@ -113,13 +106,27 @@ export default (apiUrl, httpClient) => {
    * @returns {Object} Data response
    */
   const convertHTTPResponse = (response, type, resource, params) => {
-    const { headers, data } = response;
+    const { data } = response;
     switch (type) {
       case GET_LIST:
+        try{
+          let arrayData=data.rows?data.rows:data
+          return  {
+            data: arrayData.map(item => {
+              item.id = item._id;
+              delete item._id;
+              return item;
+            }),
+            total: data.total?data.total:arrayData.length
+          }
+        }catch (e) {
+          return  {
+            data: [],
+            total: 0
+          }
+        }
       case GET_MANY:
       case GET_MANY_REFERENCE:
-      case GET_MANY_REFERENCE:
-        console.log("data",data)
         try{
           let arrayData=data.rows?data.rows:data
 
@@ -142,6 +149,7 @@ export default (apiUrl, httpClient) => {
       case DELETE_MANY:
         return { data: params };
       default:
+        console.log("data response",data)
         if (data && data._id) {
           data.id = data._id;
           delete data._id;

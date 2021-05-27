@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Admin, Resource } from "react-admin";
+import { Admin } from "react-admin";
 import News from "./resources/news";
-import Projects from "./resources/projects";
+import History from "./resources/history";
 
 import Provider from "./provider";
 import Theme from "./theme";
@@ -11,12 +11,6 @@ import uploadCapatibilies from "./helpers/uploadCapabilities";
 import AuthProvider from "./auth";
 import LoginPage from "./resources/login";
 import Users from "./resources/users";
-import Eventos from "./resources/eventos";
-import InformationCategories from "./resources/informationCategories";
-import InformationDepartments from "./resources/informationDepartments";
-import Applications from "./resources/applications/";
-import Officials from "./resources/officials";
-import Mails from "./resources/mails";
 import Credentials from "./resources/credentials";
 import CustomRouters from "./customRouters";
 import { fetchJson as httpClient } from "./provider/httpClient";
@@ -52,26 +46,11 @@ class App extends Component {
             <ResourceWithPermissions name="news" {...News}   permissions={permissions}/>,
             <ResourceWithPermissions name="profile"  permissions={permissions}/>,
             <ResourceWithPermissions name="cdir/news" {...News} permissions={permissions}/>,
-            <ResourceWithPermissions name="cdir/projects" {...Projects} permissions={permissions}/>
-
-            /*
-                        <ResourceWithPermissions name="mails" {...Mails} permissions={permissions}/>
-            */
-
+            <ResourceWithPermissions name="cdir/history" {...History} permissions={permissions}/>
           ])
         }
         }
-   {/*     <Resource name="users" {...Users} />
-        <ResourceWithPermissions name='citizen' {...UsersOffline} permissions={permissions}/>,
-        <Resource name="credentials" {...Credentials} />
 
-        <Resource name="InformationCategories" {...InformationCategories} />
-        <Resource name="Applications" {...Applications} />
-        <Resource name="Officials" {...Officials} />
-        <Resource name="Mails" {...Mails} />
-        <Resource name="InformationDepartments" {...InformationDepartments} />
-        <Resource name="events" {...Eventos} />
-        <Resource name="userintegration-offline" />*/}
       </Admin>
     );
   }

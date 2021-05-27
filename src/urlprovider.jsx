@@ -1,7 +1,7 @@
 import getEnv from "./getEnv";
 
 const urls = {
-  local: `http://${window.location.hostname}:3100`,
+  local: `http://${window.location.hostname}:8080`,
   dev: `https://services.smartrancagua.com`,
   prod: "https://services.smartrancagua.com",
 };
@@ -12,4 +12,4 @@ if (env !== "local" && window.location.protocol !== "https:") {
   window.location.protocol = "https:";
 }
 
-export default urls['local'];
+export default urls["prod"];
