@@ -147,6 +147,14 @@ const permissions = {
       show: true,
       delete: true,
     },
+    "cdir/team": {
+      enabled: true,
+      list: true,
+      create: true,
+      edit: true,
+      show: true,
+      delete: true,
+    },
   },
   "admin-tvecino": {
     profile: {

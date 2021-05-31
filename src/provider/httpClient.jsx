@@ -25,14 +25,18 @@ export const fetchJson = (url, options) => {
 
   return axios(url, { ...options, headers: requestHeaders }).then(
     (response) => {
-      let { status, statusText, data } = response;
-      if (status < 200 || status >= 300) {
-        return Promise.reject({
-          data: data || statusText,
-          status,
-        });
+      try {
+        let { status, statusText, data } = response;
+        if (status < 200 || status >= 300) {
+          return Promise.reject({
+            data: data || statusText,
+            status,
+          });
+        }
+        return Promise.resolve(response);
+      } catch (error) {
+        return Promise.resolve({});
       }
-      return Promise.resolve(response);
     },
     (error) => {
       if (error.response) {

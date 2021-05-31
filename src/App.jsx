@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Admin } from "react-admin";
 import News from "./resources/news";
 import History from "./resources/history";
+import Team from "./resources/team";
 
 import Provider from "./provider";
 import Theme from "./theme";
@@ -15,11 +16,10 @@ import Credentials from "./resources/credentials";
 import CustomRouters from "./customRouters";
 import { fetchJson as httpClient } from "./provider/httpClient";
 import UrlProvider from "./urlprovider";
-import Dashboard from './resources/dashboard'
-import MyLayout from './MyLayout';
-import { ResourceWithPermissions } from 'ra-auth-acl'
-import UsersOffline from './resources/usersOffline'
-
+import Dashboard from "./resources/dashboard";
+import MyLayout from "./MyLayout";
+import { ResourceWithPermissions } from "ra-auth-acl";
+import UsersOffline from "./resources/usersOffline";
 
 class App extends Component {
   render() {
@@ -34,23 +34,54 @@ class App extends Component {
         customRoutes={CustomRouters}
         dashboard={Dashboard}
         appLayout={MyLayout}
-
-
       >
-        {permissions => {
-          return ([
-            <ResourceWithPermissions name='citizen' {...UsersOffline} permissions={permissions}/>,
-            <ResourceWithPermissions name='users' {...Users} permissions={permissions}/>,
-            <ResourceWithPermissions name='userintegration-offline' {...Credentials} permissions={permissions}/>,
-            <ResourceWithPermissions name="profile"  permissions={permissions}/>,
-            <ResourceWithPermissions name="news" {...News}   permissions={permissions}/>,
-            <ResourceWithPermissions name="profile"  permissions={permissions}/>,
-            <ResourceWithPermissions name="cdir/news" {...News} permissions={permissions}/>,
-            <ResourceWithPermissions name="cdir/history" {...History} permissions={permissions}/>
-          ])
-        }
-        }
-
+        {(permissions) => {
+          return [
+            <ResourceWithPermissions
+              name="citizen"
+              {...UsersOffline}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="users"
+              {...Users}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="userintegration-offline"
+              {...Credentials}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="profile"
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="news"
+              {...News}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="profile"
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="cdir/news"
+              {...News}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="cdir/history"
+              {...History}
+              permissions={permissions}
+            />,
+            <ResourceWithPermissions
+              name="cdir/team"
+              {...Team}
+              permissions={permissions}
+            />,
+          ];
+        }}
       </Admin>
     );
   }
