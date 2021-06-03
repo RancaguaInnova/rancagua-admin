@@ -3,7 +3,7 @@ import {
   List,
   Datagrid,
   TextField,
-  DateField,
+  NumberField,
   EditButton,
   DeleteButton,
 } from "react-admin";
@@ -14,7 +14,7 @@ const NewsList = (props) => (
     <Datagrid>
       <TextField source="name" label="Nombre" />
       <TextField source="position" label="Cargo" />
-      <DateField source="nivel" label="Nivel" />
+      <NumberField source="level" label="Nivel" />
       <EditButton label="Editar" />
     </Datagrid>
   </List>

@@ -1,13 +1,13 @@
 import {
-    CREATE,
-    DELETE,
-    DELETE_MANY,
-    GET_LIST,
-    GET_MANY,
-    GET_MANY_REFERENCE,
-    GET_ONE,
-    UPDATE,
-    UPDATE_MANY
+  CREATE,
+  DELETE,
+  DELETE_MANY,
+  GET_LIST,
+  GET_MANY,
+  GET_MANY_REFERENCE,
+  GET_ONE,
+  UPDATE,
+  UPDATE_MANY,
 } from "react-admin";
 import queryString from "query-string";
 
@@ -25,182 +25,184 @@ import queryString from "query-string";
  * DELETE       => DELETE http://my.api.url/posts/123
  */
 export default (apiUrl, httpClient) => {
-    /**
-     * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
-     * @param {String} resource Name of the resource to fetch, e.g. 'posts'
-     * @param {Object} params The data request params, depending on the type
-     * @returns {Object} { url, options } The HTTP request parameters
-     */
-    const convertDataRequestToHTTP = (type, resource, params) => {
-        let url = "";
-        const options = {};
-        switch (type) {
-            case GET_LIST: {
-                const {page, perPage} = params.pagination;
-                const {field, order} = params.sort;
-                // handle full-text
-                /*if (params.filter.q) {
+  /**
+   * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
+   * @param {String} resource Name of the resource to fetch, e.g. 'posts'
+   * @param {Object} params The data request params, depending on the type
+   * @returns {Object} { url, options } The HTTP request parameters
+   */
+  const convertDataRequestToHTTP = (type, resource, params) => {
+    let url = "";
+    const options = {};
+    switch (type) {
+      case GET_LIST: {
+        const { page, perPage } = params.pagination;
+        const { field, order } = params.sort;
+        // handle full-text
+        /*if (params.filter.q) {
                             params.filter["$text"] = { "$search": params.filter.q};
                             delete params.filter.q;
                         }*/
-                const query = {
-                    sort: JSON.stringify({[field]: order === "ASC" ? 1 : -1}),
-                    skip: (page - 1) * perPage,
-                    limit: perPage,
+        const query = {
+          sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
+          skip: (page - 1) * perPage,
+          limit: perPage,
 
-                    query: JSON.stringify(params.filter)
-                };
-                url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-                break;
-            }
-            case GET_ONE:
+          query: JSON.stringify(params.filter),
+        };
+        url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
+        break;
+      }
+      case GET_ONE:
+        url = `${apiUrl}/${resource}/${params.id}`;
 
-                url = `${apiUrl}/${resource}/${params.id}`;
-
-                break;
-            case GET_MANY: {
-                const query = {
-                    filter: JSON.stringify({id: params.ids})
-                };
-                url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-                break;
-            }
-            case GET_MANY_REFERENCE: {
-                const {page, perPage} = params.pagination;
-                const {field, order} = params.sort;
-                const query = {
-                    sort: JSON.stringify({[field]: order === "ASC" ? 1 : -1}),
-                    skip: (page - 1) * perPage,
-                    limit: perPage,
-                    /*range: JSON.stringify([
+        break;
+      case GET_MANY: {
+        const query = {
+          filter: JSON.stringify({ id: params.ids }),
+        };
+        url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
+        break;
+      }
+      case GET_MANY_REFERENCE: {
+        const { page, perPage } = params.pagination;
+        const { field, order } = params.sort;
+        const query = {
+          sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
+          skip: (page - 1) * perPage,
+          limit: perPage,
+          /*range: JSON.stringify([
                                   (page - 1) * perPage,
                                   page * perPage - 1,
                               ]),*/
-                    query: JSON.stringify({
-                        ...params.filter,
-                        [params.target]: params.id
-                    })
-                };
-                url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-                break;
-            }
-            case UPDATE:
-                url = ''
-                switch (resource) {
-                    case 'citizen':
-                        url = `${apiUrl}/${resource}/offline/${params.id}`;
-                        break;
-                    default:
-                        url = `${apiUrl}/${resource}/${params.id}`;
-                }
-                options.method = "PUT";
-                options.data = JSON.stringify(params.data);
-                break;
-            case CREATE:
-                url = ''
-                switch (resource) {
-                    case 'citizen':
-                      url = `${apiUrl}/${resource}/offline`;
-                        break;
-
-                    default:
-                        url = `${apiUrl}/${resource}`;
-                }
-
-
-
-                options.method = "POST";
-                options.data = JSON.stringify(params.data);
-                break;
-            case DELETE:
-                url = `${apiUrl}/${resource}/${params.id}`;
-                options.method = "DELETE";
-                break;
-            default:
-                throw new Error(`Unsupported fetch action type ${type}`);
+          query: JSON.stringify({
+            ...params.filter,
+            [params.target]: params.id,
+          }),
+        };
+        url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
+        break;
+      }
+      case UPDATE:
+        url = "";
+        switch (resource) {
+          case "citizen":
+            url = `${apiUrl}/${resource}/offline/${params.id}`;
+            break;
+          default:
+            url = `${apiUrl}/${resource}/${params.id}`;
         }
-        return {url, options};
-    };
+        options.method = "PUT";
+        options.data = JSON.stringify(params.data);
+        break;
+      case CREATE:
+        url = "";
+        switch (resource) {
+          case "citizen":
+            url = `${apiUrl}/${resource}/offline`;
+            break;
 
-    /**
-     * @param {Object} response HTTP response from fetch()
-     * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
-     * @param {String} resource Name of the resource to fetch, e.g. 'posts'
-     * @param {Object} params The data request params, depending on the type
-     * @returns {Object} Data response
-     */
-    const convertHTTPResponse = (response, type, resource, params) => {
-        const {headers, data} = response;
-        consoe.log("data",data)
-        switch (type) {
-            case GET_LIST:
-                if (data && data._id) {
-                    data.id = data._id;
-                    delete data._id;
-                }
-                return {data};
-            case GET_MANY:
-            case GET_MANY_REFERENCE:
-                
-                let arrayData=data.rows?data.rows:data
-                return {
-
-                    data: arrayData.map(item => {
-                        item.id = item._id;
-                        delete item._id;
-                        return item;
-                    }),
-                    total: data.total?data.total:arrayData.length
-                }
-            case DELETE:
-            case DELETE_MANY:
-                return {data: params};
-            default:
-                if (data && data._id) {
-                    data.id = data._id;
-                    delete data._id;
-                }
-                return {data};
-        }
-    };
-
-    /**
-     * @param {string} type Request type, e.g GET_LIST
-     * @param {string} resource Resource name, e.g. "posts"
-     * @param {Object} payload Request parameters. Depends on the request type
-     * @returns {Promise} the Promise for a data response
-     */
-    return (type, resource, params) => {
-        // simple-rest doesn't handle filters on UPDATE route, so we fallback to calling UPDATE n times instead
-        if (type === UPDATE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    httpClient(`${apiUrl}/${resource}/${id}`, {
-                        method: "PUT",
-                        body: JSON.stringify(params.data)
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json)
-            }));
-        }
-        // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
-        if (type === DELETE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    httpClient(`${apiUrl}/${resource}/${id}`, {
-                        method: "DELETE"
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json)
-            }));
+          default:
+            url = `${apiUrl}/${resource}`;
         }
 
-        const {url, options} = convertDataRequestToHTTP(type, resource, params);
+        options.method = "POST";
+        options.data = JSON.stringify(params.data);
+        break;
+      case DELETE:
+        url = `${apiUrl}/${resource}/${params.id}`;
+        options.method = "DELETE";
+        break;
+      default:
+        throw new Error(`Unsupported fetch action type ${type}`);
+    }
+    return { url, options };
+  };
 
-        return httpClient(url, options).then(response =>
-            convertHTTPResponse(response, type, resource, params)
-        );
-    };
+  /**
+   * @param {Object} response HTTP response from fetch()
+   * @param {String} type One of the constants appearing at the top if this file, e.g. 'UPDATE'
+   * @param {String} resource Name of the resource to fetch, e.g. 'posts'
+   * @param {Object} params The data request params, depending on the type
+   * @returns {Object} Data response
+   */
+  const convertHTTPResponse = (response, type, resource, params) => {
+    const { headers, data } = response;
+    console.log("data", data);
+    switch (type) {
+      case GET_LIST:
+        if (data && data._id) {
+          data.id = data._id;
+          delete data._id;
+        }
+        return { data };
+      case GET_MANY:
+      case GET_MANY_REFERENCE:
+        let arrayData = data.rows ? data.rows : data;
+        return {
+          data: arrayData.map((item) => {
+            item.id = item._id;
+            delete item._id;
+            return item;
+          }),
+          total: data.total ? data.total : arrayData.length,
+        };
+      case CREATE:
+        console.log("data ---create", data);
+        return data;
+
+      case DELETE:
+      case DELETE_MANY:
+        return { data: params };
+      default:
+        if (data && data._id) {
+          data.id = data._id;
+          delete data._id;
+        }
+        return { data };
+    }
+  };
+
+  /**
+   * @param {string} type Request type, e.g GET_LIST
+   * @param {string} resource Resource name, e.g. "posts"
+   * @param {Object} payload Request parameters. Depends on the request type
+   * @returns {Promise} the Promise for a data response
+   */
+  return (type, resource, params) => {
+    // simple-rest doesn't handle filters on UPDATE route, so we fallback to calling UPDATE n times instead
+    if (type === UPDATE_MANY) {
+      return Promise.all(
+        params.ids.map((id) =>
+          httpClient(`${apiUrl}/${resource}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(params.data),
+          })
+        )
+      ).then((responses) => ({
+        data: responses.map((response) => response.json),
+      }));
+    }
+    // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
+    if (type === DELETE_MANY) {
+      return Promise.all(
+        params.ids.map((id) =>
+          httpClient(`${apiUrl}/${resource}/${id}`, {
+            method: "DELETE",
+          })
+        )
+      ).then((responses) => ({
+        data: responses.map((response) => response.json),
+      }));
+    }
+
+    if (type === CREATE) {
+    }
+
+    const { url, options } = convertDataRequestToHTTP(type, resource, params);
+
+    return httpClient(url, options).then((response) =>
+      convertHTTPResponse(response, type, resource, params)
+    );
+  };
 };

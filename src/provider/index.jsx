@@ -148,12 +148,19 @@ export default (apiUrl, httpClient) => {
             total: 0,
           };
         }
+      case CREATE:
+        return data;
+      case UPDATE:
+        if (data && data._id) {
+          data.id = data._id;
+          delete data._id;
+        }
 
+        return data;
       case DELETE:
       case DELETE_MANY:
         return { data: params };
       default:
-        console.log("data response", data);
         if (data && data._id) {
           data.id = data._id;
           delete data._id;

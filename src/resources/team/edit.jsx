@@ -19,7 +19,7 @@ const NewsEdit = (props) => (
         validate={validateTitle}
       />
       <TextInput source="position" label="Cargo" fullWidth={true} required />
-      <NumberInput source="nivel" step={1} />
+      <NumberInput source="level" step={1} />
       <TextInput source="contact.email" label="Email" fullWidth={true} />
       <TextInput source="contact.phone" label="Télefono" fullWidth={true} />
     </SimpleForm>
