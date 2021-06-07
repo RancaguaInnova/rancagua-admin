@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import QRCode from "qrcode.react"
-import ApiUrl from "../../dataprovider/url"
+import ApiUrl from "../../urlprovider"
 import { format } from "rut.js"
 import "./styles.scss"
 import ReactToPrint, { PrintContextConsumer } from "react-to-print"

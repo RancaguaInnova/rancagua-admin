@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import providerUrl from "../../dataprovider/url"
-import { fetchJson as httpClient } from "../../dataprovider/httpClient"
+import providerUrl from "../../urlprovider"
+import { fetchJson as httpClient } from "../../provider/httpClient"
 
 const getKpi = async () => {
   try {
     let options = {}
     options.method = "GET"
     const response = await httpClient(`${providerUrl}/citizen/kpi`, options)
-    return await response.data
+    return await response?.data
   } catch (e) {
     return []
   }
