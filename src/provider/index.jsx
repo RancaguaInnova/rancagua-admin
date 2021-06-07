@@ -8,8 +8,8 @@ import {
   GET_ONE,
   UPDATE,
   UPDATE_MANY,
-} from "react-admin";
-import queryString from "query-string";
+} from "react-admin"
+import queryString from "query-string"
 
 /**
  * Maps react-admin queries to a simple REST API
@@ -32,13 +32,13 @@ export default (apiUrl, httpClient) => {
    * @returns {Object} { url, options } The HTTP request parameters
    */
   const convertDataRequestToHTTP = (type, resource, params) => {
-    let url = "";
-    const options = {};
+    let url = ""
+    const options = {}
     try {
       switch (type) {
         case GET_LIST: {
-          const { page, perPage } = params.pagination;
-          const { field, order } = params.sort;
+          const { page, perPage } = params.pagination
+          const { field, order } = params.sort
 
           const query = {
             sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
@@ -46,23 +46,23 @@ export default (apiUrl, httpClient) => {
             limit: perPage,
 
             query: JSON.stringify(params.filter),
-          };
-          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-          break;
+          }
+          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`
+          break
         }
         case GET_ONE:
-          url = `${apiUrl}/${resource}/${params.id}`;
-          break;
+          url = `${apiUrl}/${resource}/${params.id}`
+          break
         case GET_MANY: {
           const query = {
             filter: JSON.stringify({ id: params.ids }),
-          };
-          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-          break;
+          }
+          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`
+          break
         }
         case GET_MANY_REFERENCE: {
-          const { page, perPage } = params.pagination;
-          const { field, order } = params.sort;
+          const { page, perPage } = params.pagination
+          const { field, order } = params.sort
           const query = {
             sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
             skip: (page - 1) * perPage,
@@ -71,36 +71,34 @@ export default (apiUrl, httpClient) => {
               ...params.filter,
               [params.target]: params.id,
             }),
-          };
-          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
-          break;
+          }
+          url = `${apiUrl}/${resource}?${queryString.stringify(query)}`
+          break
         }
         case UPDATE:
-          url = `${apiUrl}/${resource}/${params.id}`;
-          options.method = "PUT";
-          options.data = JSON.stringify(params.data);
-          break;
+          url = `${apiUrl}/${resource}/${params.id}`
+          options.method = "PUT"
+          options.data = JSON.stringify(params.data)
+          break
 
         case CREATE:
           url =
             params && params.id
               ? `${apiUrl}/${resource}/${params.id}`
-              : `${apiUrl}/${resource}`;
-          options.method = "POST";
-          options.data = JSON.stringify(params.data);
-          break;
+              : `${apiUrl}/${resource}`
+          options.method = "POST"
+          options.data = JSON.stringify(params.data)
+          break
         case DELETE:
-          url = `${apiUrl}/${resource}/${params.id}`;
-          options.method = "DELETE";
-          break;
+          url = `${apiUrl}/${resource}/${params.id}`
+          options.method = "DELETE"
+          break
         default:
-          throw new Error(`Unsupported fetch action type ${type}`);
+          throw new Error(`Unsupported fetch action type ${type}`)
       }
-    } catch (e) {
-      console.log(e);
-    }
-    return { url, options };
-  };
+    } catch (e) {}
+    return { url, options }
+  }
 
   /**
    * @param {Object} response HTTP response from fetch()
@@ -110,64 +108,64 @@ export default (apiUrl, httpClient) => {
    * @returns {Object} Data response
    */
   const convertHTTPResponse = (response, type, resource, params) => {
-    const { data } = response;
+    const { data } = response
     switch (type) {
       case GET_LIST:
         try {
-          let arrayData = data.rows ? data.rows : data;
+          let arrayData = data.rows ? data.rows : data
           return {
             data: arrayData.map((item) => {
-              item.id = item._id;
-              delete item._id;
-              return item;
+              item.id = item._id
+              delete item._id
+              return item
             }),
             total: data.total ? data.total : arrayData.length,
-          };
+          }
         } catch (e) {
           return {
             data: [],
             total: 0,
-          };
+          }
         }
       case GET_MANY:
       case GET_MANY_REFERENCE:
         try {
-          let arrayData = data.rows ? data.rows : data;
+          let arrayData = data.rows ? data.rows : data
 
           return {
             data: arrayData.map((item) => {
-              item.id = item._id;
-              delete item._id;
-              return item;
+              item.id = item._id
+              delete item._id
+              return item
             }),
             total: data.total ? data.total : arrayData.length,
-          };
+          }
         } catch (e) {
           return {
             data: [],
             total: 0,
-          };
+          }
         }
       case CREATE:
-        return data;
+        return data
       case UPDATE:
         if (data && data._id) {
-          data.id = data._id;
-          delete data._id;
+          data.id = data._id
+          delete data._id
         }
 
-        return data;
+        return data
       case DELETE:
       case DELETE_MANY:
-        return { data: params };
+        return { data: params }
       default:
         if (data && data._id) {
-          data.id = data._id;
-          delete data._id;
+          data.id = data._id
+          delete data._id
         }
-        return { data };
+        return { data }
     }
-  };
+  }
 
   /**
    * @param {string} type Request type, e.g GET_LIST
@@ -184,11 +182,11 @@ export default (apiUrl, httpClient) => {
             httpClient(`${apiUrl}/${resource}/${id}`, {
               method: "PUT",
               body: JSON.stringify(params.data),
-            })
-          )
+            }),
+          ),
         ).then((responses) => ({
           data: responses.map((response) => response.json),
-        }));
+        }))
       }
       // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
       if (type === DELETE_MANY) {
@@ -196,20 +194,18 @@ export default (apiUrl, httpClient) => {
           params.ids.map((id) =>
             httpClient(`${apiUrl}/${resource}/${id}`, {
               method: "DELETE",
-            })
-          )
+            }),
+          ),
         ).then((responses) => ({
           data: responses.map((response) => response.json),
-        }));
+        }))
       }
 
-      const { url, options } = convertDataRequestToHTTP(type, resource, params);
+      const { url, options } = convertDataRequestToHTTP(type, resource, params)
 
       return httpClient(url, options).then((response) =>
-        convertHTTPResponse(response, type, resource, params)
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
-};
+        convertHTTPResponse(response, type, resource, params),
+      )
+    } catch (e) {}
+  }
+}

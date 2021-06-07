@@ -1,9 +1,8 @@
-import People from '@material-ui/icons/People'
+import People from "@material-ui/icons/People"
 
-import create from './create'
-import edit from './edit'
-import list from './list'
-import show from './show'
+import create from "./create"
+import edit from "./edit"
+import list from "./list"
 
 export default {
   list: list,
@@ -11,5 +10,5 @@ export default {
   edit: edit,
   icon: People,
   //show: show,
-  options: { label: 'Usuarios Offline' }
+  options: { label: "Usuarios Offline" },
 }

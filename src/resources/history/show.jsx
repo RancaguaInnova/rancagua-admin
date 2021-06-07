@@ -1,14 +1,13 @@
-import React from 'react'
-import { TextField, DateField, Show, SimpleShowLayout, UrlField } from 'react-admin'
+import React from "react"
+import { TextField, Show, SimpleShowLayout } from "react-admin"
 
-const HistoryShow = props => (
-  <Show title='Mostrando Historia' {...props}>
+const HistoryShow = (props) => (
+  <Show title="Mostrando Historia" {...props}>
     <SimpleShowLayout>
-      <TextField source='date' label='Título' />
-      <TextField source='cardTitle' label='Título' />
-      <TextField source='cardSubtitle' label='Subtítulo' />
-      <TextField source='cardDetailedText' label='Detalle' />
-
+      <TextField source="date" label="Título" />
+      <TextField source="cardTitle" label="Título" />
+      <TextField source="cardSubtitle" label="Subtítulo" />
+      <TextField source="cardDetailedText" label="Detalle" />
     </SimpleShowLayout>
   </Show>
 )

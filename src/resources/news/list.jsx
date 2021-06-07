@@ -1,15 +1,19 @@
-import React from 'react'
-import { List, Datagrid, TextField, DateField, EditButton, DeleteButton } from 'react-admin'
-import { ShowButton } from 'react-admin';
+import React from "react"
+import { List, Datagrid, TextField, DateField, EditButton } from "react-admin"
 
-const NewsList = props => (
-  <List {...props} title='Listado de Noticias'>
-    <Datagrid >
-      <TextField source='title' label='Título' />
-      <TextField source='subtitle' label='Sub Título' />
-      <DateField source='publicationDate' label='Fecha de publicación' />
-      <EditButton label='Editar' />
-    </Datagrid>
-  </List>
-)
+const NewsList = (props) => {
+  const postRowStyle = (record, index) => ({
+    backgroundColor: record.nb_views >= 500 ? "#efe" : "white",
+  })
+  return (
+    <List {...props} title="Listado de Noticias">
+      <Datagrid rowStyle={postRowStyle}>
+        <TextField source="title" label="Título" />
+        <TextField source="subtitle" label="Sub Título" />
+        <DateField source="publicationDate" label="Fecha de publicación" />
+        <EditButton label="Editar" />
+      </Datagrid>
+    </List>
+  )
+}
 export default NewsList

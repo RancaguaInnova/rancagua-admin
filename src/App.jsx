@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { Admin } from "react-admin";
-import News from "./resources/news";
-import History from "./resources/history";
-import Team from "./resources/team";
+import React, { Component } from "react"
+import { Admin } from "react-admin"
+import News from "./resources/news"
+import History from "./resources/history"
+import Team from "./resources/team"
 
-import Provider from "./provider";
-import Theme from "./theme";
-import "./App.scss";
-import I18nProvider from "./i18n";
-import uploadCapatibilies from "./helpers/uploadCapabilities";
-import AuthProvider from "./auth";
-import LoginPage from "./resources/login";
-import Users from "./resources/users";
-import Credentials from "./resources/credentials";
-import CustomRouters from "./customRouters";
-import { fetchJson as httpClient } from "./provider/httpClient";
-import UrlProvider from "./urlprovider";
-import Dashboard from "./resources/dashboard";
-import MyLayout from "./MyLayout";
-import { ResourceWithPermissions } from "ra-auth-acl";
-import UsersOffline from "./resources/usersOffline";
+import Provider from "./provider"
+import Theme from "./theme"
+import "./App.scss"
+import I18nProvider from "./i18n"
+import uploadCapatibilies from "./helpers/uploadCapabilities"
+import AuthProvider from "./auth"
+import LoginPage from "./resources/login"
+import Users from "./resources/users"
+import Credentials from "./resources/credentials"
+import CustomRouters from "./customRouters"
+import { fetchJson as httpClient } from "./provider/httpClient"
+import UrlProvider from "./urlprovider"
+import Dashboard from "./resources/dashboard"
+import MyLayout from "./MyLayout"
+import { ResourceWithPermissions } from "ra-auth-acl"
+import UsersOffline from "./resources/usersOffline"
 
 class App extends Component {
   render() {
@@ -80,11 +80,11 @@ class App extends Component {
               {...Team}
               permissions={permissions}
             />,
-          ];
+          ]
         }}
       </Admin>
-    );
+    )
   }
 }
 
-export default App;
+export default App

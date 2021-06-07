@@ -1,13 +1,5 @@
-import React from "react";
-import {
-  List,
-  Datagrid,
-  TextField,
-  NumberField,
-  EditButton,
-  DeleteButton,
-} from "react-admin";
-import { ShowButton } from "react-admin";
+import React from "react"
+import { List, Datagrid, TextField, NumberField, EditButton } from "react-admin"
 
 const NewsList = (props) => (
   <List {...props} title="Listado de Equipo">
@@ -18,5 +10,5 @@ const NewsList = (props) => (
       <EditButton label="Editar" />
     </Datagrid>
   </List>
-);
-export default NewsList;
+)
+export default NewsList
