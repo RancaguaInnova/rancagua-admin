@@ -1,26 +1,41 @@
-import React from 'react'
+import React from "react"
 import {
   List,
   Datagrid,
   TextField,
   DateField,
   EditButton,
-  DeleteButton} from 'react-admin'
-export const UserList = props => (
-  <List {...props}>
-    <Datagrid rowClick='edit'>
-      <TextField source='profile.firstName' label='Nombre' />
-      <TextField source='profile.lastName' label='Apellido' />
-      <TextField source='profile.gender' label='Sexo' />
-      <DateField
-        source='profile.birthdate'
-        label='Fecha de nacimiento'
-        timeZone='America/Santiago'
-      />
-      <EditButton label='Editar' />
-      <DeleteButton label='Eliminar' />
-    </Datagrid>
-  </List>
+  Filter,
+  TextInput,
+} from "react-admin"
+
+const UserFilter = (props) => (
+  <Filter {...props}>
+    <TextInput label="Nombre" source="profile.firstName" alwaysOn />
+    <TextInput label="Apellido" source="profile.lastName" alwaysOn />
+    <TextInput label="Rut" source="profile.identifier" alwaysOn />
+  </Filter>
 )
+
+export const UserList = (props) => {
+  return (
+    <List {...props} filters={<UserFilter />}>
+      <Datagrid rowClick="edit">
+        <TextField source="profile.firstName" label="Nombre" />
+        <TextField source="profile.lastName" label="Apellido" />
+        <TextField source="profile.identifier" label="Rut" />
+
+        <TextField source="profile.gender" label="Sexo" />
+        <DateField
+          source="profile.birthdate"
+          label="Fecha de nacimiento"
+          // @ts-ignore
+          timeZone="America/Santiago"
+        />
+        <EditButton label="Editar" />
+      </Datagrid>
+    </List>
+  )
+}
 
 export default UserList
