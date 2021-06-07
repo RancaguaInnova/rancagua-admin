@@ -150,6 +150,10 @@ export default (apiUrl, httpClient) => {
           }
         }
       case CREATE:
+        if (data && data._id) {
+          data.id = data._id
+          delete data._id
+        }
         return data
       case UPDATE:
         if (data && data._id) {
