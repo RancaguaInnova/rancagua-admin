@@ -42,6 +42,8 @@ export default (apiUrl, httpClient) => {
 
           const query = {
             sort: JSON.stringify({ [field]: order === "ASC" ? 1 : -1 }),
+            pageSize: JSON.stringify(perPage),
+            page: JSON.stringify(page),
             skip: (page - 1) * perPage,
             limit: perPage,
 
@@ -50,6 +52,7 @@ export default (apiUrl, httpClient) => {
           url = `${apiUrl}/${resource}?${queryString.stringify(query)}`
           break
         }
+
         case GET_ONE:
           url = `${apiUrl}/${resource}/${params.id}`
           break
