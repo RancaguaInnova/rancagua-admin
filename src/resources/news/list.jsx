@@ -6,12 +6,12 @@ import {
   DateField,
   EditButton,
   Filter,
-  TextInput,
+  SearchInput,
 } from "react-admin"
 
 const NewsFilter = (props) => (
   <Filter {...props}>
-    <TextInput label="Buscar..." source="title" alwaysOn />
+    <SearchInput source="title" alwaysOn />
   </Filter>
 )
 

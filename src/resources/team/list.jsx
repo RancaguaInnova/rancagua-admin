@@ -6,12 +6,12 @@ import {
   NumberField,
   EditButton,
   Filter,
-  TextInput,
+  SearchInput,
 } from "react-admin"
 
 const TeamFilter = (props) => (
   <Filter {...props}>
-    <TextInput label="Buscar..." source="name" alwaysOn />
+    <SearchInput source="name" alwaysOn />
   </Filter>
 )
 

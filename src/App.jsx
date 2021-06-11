@@ -31,11 +31,10 @@ class App extends Component {
         authProvider={AuthProvider}
         theme={Theme}
         dataProvider={uploadCapatibilies(Provider(UrlProvider, httpClient))}
-        locale="es"
         i18nProvider={I18nProvider}
         customRoutes={CustomRouters}
         dashboard={Dashboard}
-        appLayout={MyLayout}
+        layout={MyLayout}
       >
         {(permissions) => {
           return [

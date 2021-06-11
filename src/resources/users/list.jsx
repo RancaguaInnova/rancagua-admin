@@ -16,7 +16,6 @@ const UserFilter = (props) => (
     <TextInput label="Rut" source="profile.identifier" alwaysOn />
   </Filter>
 )
-
 export const UserList = (props) => {
   return (
     <List {...props} filters={<UserFilter />}>
@@ -26,12 +25,7 @@ export const UserList = (props) => {
         <TextField source="profile.identifier" label="Rut" />
 
         <TextField source="profile.gender" label="Sexo" />
-        <DateField
-          source="profile.birthdate"
-          label="Fecha de nacimiento"
-          // @ts-ignore
-          timeZone="America/Santiago"
-        />
+        <DateField source="profile.birthdate" label="Fecha de nacimiento" />
         <EditButton label="Editar" />
       </Datagrid>
     </List>
