@@ -1,11 +1,11 @@
-import React from 'react';
-import Icofont from "react-icofont";
+import React from "react"
+import { FcPicture } from "react-icons/fc"
 
-const icon =()=> {
-    return (
-      <div>
-        <Icofont icon='icofont-newspaper' className='icon' spin="false"></Icofont>
-      </div>
-    )
-  }
-  export default icon;
+const icon = () => {
+  return (
+    <div>
+      <FcPicture size={24}></FcPicture>
+    </div>
+  )
+}
+export default icon

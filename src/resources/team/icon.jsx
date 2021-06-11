@@ -1,11 +1,10 @@
-import React from 'react';
-import Icofont from "react-icofont";
-
-const icon =()=> {
-    return (
-      <div>
-        <Icofont icon='icofont-newspaper' className='icon' spin="false"></Icofont>
-      </div>
-    )
-  }
-  export default icon;
+import React from "react"
+import { FcFlowChart } from "react-icons/fc"
+const icon = () => {
+  return (
+    <div>
+      <FcFlowChart size={24}></FcFlowChart>
+    </div>
+  )
+}
+export default icon

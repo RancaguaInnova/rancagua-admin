@@ -1,8 +1,26 @@
 import React from "react"
-import { List, Datagrid, TextField, NumberField, EditButton } from "react-admin"
+import {
+  List,
+  Datagrid,
+  TextField,
+  NumberField,
+  EditButton,
+  Filter,
+  TextInput,
+} from "react-admin"
 
-const NewsList = (props) => (
-  <List {...props} title="Listado de Equipo">
+const TeamFilter = (props) => (
+  <Filter {...props}>
+    <TextInput label="Buscar..." source="name" alwaysOn />
+  </Filter>
+)
+
+const TeamList = (props) => (
+  <List
+    {...props}
+    title="Listado de Equipo"
+    filters={<TeamFilter></TeamFilter>}
+  >
     <Datagrid>
       <TextField source="name" label="Nombre" />
       <TextField source="position" label="Cargo" />
@@ -11,4 +29,4 @@ const NewsList = (props) => (
     </Datagrid>
   </List>
 )
-export default NewsList
+export default TeamList

@@ -1,9 +1,9 @@
 import React from "react"
-import { FcReading } from "react-icons/fc"
+import { FcNightPortrait } from "react-icons/fc"
 const icon = () => {
   return (
     <div>
-      <FcReading size={24}></FcReading>
+      <FcNightPortrait size={24}></FcNightPortrait>
     </div>
   )
 }
